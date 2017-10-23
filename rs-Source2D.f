@@ -18,12 +18,29 @@
 
       double precision beta(Nx),gamma(Nx),ro(Nx)
       double precision betaprime(Nx),gammaprime(Nx),roprime(Nx)
-      double precision f1,f2,Phi,Y
+      double precision f1,f2,Phi,Y,r1,r2,noise
       double precision gLaplace(Nx)
       double precision xgradeC(Nx),ygradeC(Nx)
       double precision vdx(Nx),vdy, percentage, factor2
       double precision dke(Nx),dsigma(Nx)
       integer grid(Nx), Nc
+!  ! ----- variables for portable seed setting -----
+!      INTEGER :: i_seed
+!      INTEGER, DIMENSION(:), ALLOCATABLE :: a_seed
+!      INTEGER, DIMENSION(1:8) :: dt_seed
+!  ! ----- end of variables for seed setting -----
+!
+! ! ----- Set up random seed portably -----
+!      CALL RANDOM_SEED(size=i_seed)
+!      ALLOCATE(a_seed(1:i_seed))
+!      CALL RANDOM_SEED(get=a_seed)
+!      CALL DATE_AND_TIME(values=dt_seed)
+!      a_seed(i_seed)=dt_seed(8); a_seed(1)=dt_seed(8)*dt_seed(7)
+!     .*dt_seed(6)
+!!       write(6,*) 'seed=',a_seed(i_seed)
+!      CALL RANDOM_SEED(put=a_seed)
+!      DEALLOCATE(a_seed)
+!  ! ----- Done setting up random seed ----
 
         Nc=0
       do i=1,Nx
@@ -39,37 +56,35 @@
        do i=1,Nx
 !       Extra variables calculation
         if(grid(i) .gt. 0.5)then
-            factor=1.0
-            factor2=1.0
+            vdy=0.0
+            aux=gamma(i)
+            dke(i)=1.0
+            dsigma(i)=1.0
+            f1=(1.d0+dk*aux)/(1.d0+aux)
+            f2=(dL1+dk*dL2*dc*aux)/(1.d0+dc*aux)
+            Y=ro(i)*aux/(1.d0+aux)
+            Phi=(dlambda1+Y*Y)/(dlambda2+Y*Y)
+!            call random_number(r1)
+!            call random_number(r2)
+!            noise=sqrt(-2*log(r1))*cos(2*Pi*r2);
+!
+!           Right hand side
+            betaprime(i)=(s1*Phi*dsigma(i)-beta(i))
+     .                        /depsilonp
+            roprime(i)=(-f1*ro(i)+f2*(1.d0-ro(i)))
+            gammaprime(i)=1.0/depsilon*s2*beta(i)
+     .                 -1.0/depsilon*gamma(i)
+     .                      +depsilon*gLaplace(i)
+     .              -  (vdx(i)*xgradeC(i))
+!     .              + 10*noise
         else
-            factor=0.0
-            factor2=0.0
-!            factor2=percentage
-        endif
-
-!        factor2=grid(i)
-!        if (factor2 .lt. 0)then
-!            factor2=0
-!        endif
-
-        vdy=0.0
-        aux=gamma(i)
-        dke(i)=1.0
-        dsigma(i)=1.0
-        f1=(1.d0+dk*aux)/(1.d0+aux)
-        f2=(dL1+dk*dL2*dc*aux)/(1.d0+dc*aux)
-        Y=ro(i)*aux/(1.d0+aux)
-        Phi=(dlambda1+Y*Y)/(dlambda2+Y*Y)
-
 !       Right hand side
-        betaprime(i)=factor*(s1*Phi*dsigma(i)-beta(i))
-     .                    /depsilonp
-        roprime(i)=factor*(-f1*ro(i)+f2*(1.d0-ro(i)))
-        gammaprime(i)=factor*3/depsilon*s2*beta(i)
-     .             -factor2/depsilon*dke(i)*gamma(i)
-     .                  +depsilon*gLaplace(i)
-     .          -  (vdx(i)*xgradeC(i))
-
+            betaprime(i)=0.0
+            roprime(i)=0.0
+            gammaprime(i)=-1.0/depsilon*gamma(i)
+     .                      +depsilon*gLaplace(i)
+     .              -  (vdx(i)*xgradeC(i))
+        endif
       enddo
 
       return
@@ -109,15 +124,15 @@
         gammaim1=gamma(i+1)
         gammaip1=gamma(i+1)
 
-!        gammaim2=0
-!        gammaim1=0
+!        gammaim2=0.0
+!        gammaim1=0.0
 
        elseif(i .eq. 2) then
         gammaim2=-gamma(i)+2*gamma(i-1)
         gammaim1=gamma(i-1)
         gammaip1=gamma(i+1)
 
-!        gammaim2=0
+!        gammaim2=0.0
 
        elseif(i .eq. Nx) then
         gammaim2=gamma(i-2)

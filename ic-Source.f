@@ -26,17 +26,17 @@
       integer grid(Nx)
       integer factor
 
-!     %%%%% Excitable steady state
-         nfix=1
-         gamma0(1)=0.006
-         beta0(1)=0.3167
-         ro0(1)=0.8953
-
-!     %%%% unstable steady state
+!     %%%%% Initial State for ke=9.5 sigma=0.55
 !         nfix=1
-!         gamma0(1)=0.2845
-!         beta0(1)=15.0138
-!         ro0(1)=0.3167
+!         gamma0(1)=0.006
+!         beta0(1)=0.3167
+!         ro0(1)=0.8953
+
+!     %%%%% Initial State for ke=7.0 sigma=0.55
+         nfix=1
+         gamma0(1)=0.359
+         beta0(1)=13.91
+         ro0(1)=0.285
 
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       do i=1,nfix
@@ -58,11 +58,11 @@
 
       enddo
 
-      do i=20,100
-         if(grid(i) .gt. 0.5)then
-            gamma(i)=gamma0(1)+3
-         endif
-      enddo
+!      do i=20,100
+!         if(grid(i) .gt. 0.5)then
+!            gamma(i)=gamma0(1)+3
+!         endif
+!      enddo
 
 
 

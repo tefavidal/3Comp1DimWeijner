@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=2000
+      INTEGER, PARAMETER :: Nc=1000
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -49,13 +49,10 @@
       write(ct1,'(I4)') counter
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
-!      if(counter .eq. 300)then
+!      if(mod(counter,120) .eq. 10)then
 !         write(6,*) 'Perturbing'
-!         call FromCellToGrid(Nx,Nc,cells,grid)
-!         do i=20,500
-!            if(grid(i) .gt. 0.5)then
-!               gamma(i)=gamma0(1)+7
-!            endif
+!         do i=201,250
+!               gamma(i)=gamma(i)+3.0
 !         enddo
 !      endif
 

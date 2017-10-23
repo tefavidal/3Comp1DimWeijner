@@ -17,7 +17,7 @@
       common /param/ gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
       double precision beta(Nx),gamma(Nx),ro(Nx)
-      double precision dh,tEprime,dk2,dki,dkt,dq,depsilono,dlambda
+      double precision dh,tEprime,dk2,dki,dkt,dq,depsilono,dlambda,Km
       double precision dtheta,Vmax,tendprime,toutprime,dtprime
       double precision cells(Nc)
 
@@ -37,6 +37,15 @@
       read(8,*) isf,itstart,pi
 
       close(8)
+
+!     Km changes
+      Km=1.0
+      dq=dq*Km
+      dsigma0=dsigma0/Km
+      dalpha=dalpha/Km
+
+
+
       dk=dk2/dk1
       dlambda1=dlambda*dtheta/depsilono
       dlambda2=(1+dalpha*dtheta)/(depsilono*(1+dalpha))
@@ -84,6 +93,9 @@
 !     %%%%% Random positions one cell per grid point %%%%%%%%%%
 
  20   call initialDiscreteDistribution(Nx,Nc,cells)
+! 20   call NonRandomDistribution(Nx,Nc,cells)
+! 20   call DispersionRelationTest(Nx,Nc,cells)
+! 20   call DispersionRelationRandom(Nx,Nc,cells)
       call ic(t,Nx,Nc,beta,gamma,ro,cells)
 
 
