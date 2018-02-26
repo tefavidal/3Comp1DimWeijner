@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=1000
+      INTEGER, PARAMETER :: Nc=20
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -25,6 +25,7 @@
       integer grid(Nx)
       character(len=4) ct1
       character(len=52) ct2
+!      character(len=22) ct2
       character(len=56) ct3
 
       double precision gamma0(10),ro0(10),beta0(10)
@@ -33,6 +34,7 @@
       counter=0;
       call anfang(t,Nx,Nc,beta,gamma,ro,cells)
       ct2='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/data'
+!      ct2='/scratch01/evidal/data'
       open(10,file =ct2 ,status = 'unknown',form = 'formatted')
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
@@ -49,7 +51,7 @@
       write(ct1,'(I4)') counter
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
-!      if(mod(counter,120) .eq. 10)then
+!      if(mod(counter,85) .eq. 10)then
 !         write(6,*) 'Perturbing'
 !         do i=201,250
 !               gamma(i)=gamma(i)+3.0

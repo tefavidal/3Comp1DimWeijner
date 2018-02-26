@@ -35,7 +35,7 @@
       h=dt
 !      call flow(t,Nx,vdx,vdy)
              do i=1,Nx
-                vdx(i)=0
+                vdx(i)=vd
                 vdy(i)=0
                 enddo
 

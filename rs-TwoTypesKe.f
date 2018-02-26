@@ -18,7 +18,7 @@
 
       double precision beta(Nx),gamma(Nx),ro(Nx)
       double precision betaprime(Nx),gammaprime(Nx),roprime(Nx)
-      double precision f1,f2,Phi,Y,r1,r2,noise
+      double precision f1,f2,Phi,Y,r1,r2,noise, keB, keU
       double precision gLaplace(Nx)
       double precision xgradeC(Nx),ygradeC(Nx)
       double precision vdx(Nx),vdy, percentage
@@ -53,6 +53,8 @@
 
        percentage=real(Nc)/(real(Nx))
 
+      keU=0.15
+      keB=0.6
        do i=1,Nx
 
 
@@ -75,14 +77,14 @@
      .                        /depsilonp
             roprime(i)=(-f1*ro(i)+f2*(1.d0-ro(i)))
             gammaprime(i)=1.0/depsilon*s2*beta(i)
-     .                 -1.0/depsilon*gamma(i)
+     .                 -(keB+keU)/dke0/depsilon*gamma(i)
      .                      +depsilon*gLaplace(i)
 !     .              + 10*noise
         else
 !       Right hand side
             betaprime(i)=0.0
             roprime(i)=0.0
-            gammaprime(i)=-1.0/depsilon*gamma(i)
+            gammaprime(i)=-(keU/dke0)/depsilon*gamma(i)
      .                      +depsilon*gLaplace(i)
         endif
       enddo

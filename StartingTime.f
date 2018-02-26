@@ -195,8 +195,19 @@
       enddo
             k=1;
       do i=1,Nx
-!         if(mod(i,5) .eq. 2 .or. mod(i,5) .eq. 4)then
-         if(mod(i,2) .eq. 1)then
+!%%%%%%% 30 %
+!         if(mod(i,10) .eq. 3 .or. mod(i,10) .eq. 6
+!     .    .or. mod(i,10) .eq. 9)then
+
+!%%%%%%  40%
+         if(mod(i,5) .eq. 2 .or. mod(i,5) .eq. 4)then
+
+!%%%%%%%% 50%
+!         if(mod(i,2) .eq. 1)then
+
+!%%%%%%  60%
+!      if(mod(i,5) .eq. 1 .or. mod(i,5) .eq. 3 .or. mod(i,5)
+!     .  .eq. 0)then
                 if (k .gt. Nc)then
                     exit
                 endif

@@ -38,6 +38,12 @@
          beta0(1)=13.91
          ro0(1)=0.285
 
+!     %%%%% Initial High state
+!         nfix=1
+!         gamma0(1)=0.5
+!         beta0(1)=0.3167
+!         ro0(1)=0.8953
+
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
       do i=1,nfix
       write(6,*)  'gamma=',gamma0(i),'  beta=',beta0(i),'  ro=',ro0(i)
