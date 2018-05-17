@@ -16,7 +16,7 @@
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
       common /param/ gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
-      double precision beta(Nx),gamma(Nx),ro(Nx)
+      double precision beta(Nc),gamma(Nx),ro(Nc)
       double precision dh,tEprime,dk2,dki,dkt,dq,depsilono,dlambda,Km
       double precision dtheta,Vmax,tendprime,toutprime,dtprime
       double precision cells(Nc)

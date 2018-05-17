@@ -1,5 +1,98 @@
 !%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+      subroutine GammaToList(Nx,Nc,cells,gamma,gammalist)
+
+      implicit none
+
+      double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
+     .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+
+      common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
+     .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+
+      integer Nx, Nc,i, j,k
+      double precision cells(Nc)
+      double precision d
+      double precision gamma(Nx), gammalist(Nc)
+
+
+
+
+      do k=1,Nc
+        if(cells(k) .lt. 0)then
+           cycle
+        endif
+        i=ceiling(cells(k)/dx)
+        if(i .gt.Nx)then
+            cells(k)=cells(k)-Nx*dx
+            i=ceiling(cells(k)/dx)
+        endif
+
+        if(i .lt.1)then
+            cells(k)=cells(k)+Nx*dx
+            i=ceiling(cells(k)/dx)
+        endif
+        gammalist(k)=gamma(i)
+      enddo
+
+      return
+      end
+
+
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+      subroutine GridifyingBetaRho(Nx,Nc,cells,grid,beta,ro,betagrid
+     . ,rhogrid)
+
+      implicit none
+
+      double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
+     .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+
+      common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
+     .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+
+      integer Nx, Nc,i, j,k
+      double precision cells(Nc)
+      double precision beta(Nc), ro(Nc)
+      double precision betagrid(Nx), rhogrid(Nx)
+      double precision d
+      integer grid(Nx)
+
+
+        d=1.0
+
+      do i=1,Nx
+         grid(i)=0
+         betagrid(i)=0
+         rhogrid(i)=0
+      enddo
+
+      do k=1,Nc
+        i=ceiling(cells(k)/dx)
+        if(i .gt.Nx)then
+            cells(k)=cells(k)-Nx*dx
+            i=ceiling(cells(k)/dx)
+        endif
+
+        if(i .lt.1)then
+            cells(k)=cells(k)+Nx*dx
+            i=ceiling(cells(k)/dx)
+        endif
+
+        grid(i)=grid(i)+1
+        betagrid(i)=beta(k)+betagrid(i)
+        rhogrid(i)=ro(k)+rhogrid(i)
+      enddo
+
+      return
+      end
+!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
       subroutine FromCellToGrid(Nx,Nc,cells,grid)
 
       implicit none

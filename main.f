@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=20
+      INTEGER, PARAMETER :: Nc=1200
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -18,7 +18,7 @@
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
       common /param/ gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
-      double precision beta(Nx),gamma(Nx),ro(Nx)
+      double precision beta(Nc),gamma(Nx),ro(Nc)
       double precision t
       double precision cells(Nc)
       integer pgbeg, i, counter, factor

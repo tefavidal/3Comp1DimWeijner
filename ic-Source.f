@@ -18,7 +18,7 @@
       common /param/ gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
 
-      double precision beta(Nx),gamma(Nx),ro(Nx)
+      double precision beta(Nc),gamma(Nx),ro(Nc)
       double precision gamma0(10),beta0(10),ro0(10)
       double precision dke(Nx),dsigma(Nx)
       double precision cells(Nc)
@@ -53,22 +53,17 @@
 
       do i=1,Nx
            if(grid(i) .gt. 0.5)then
-            ro(i)=ro0(1)
-            beta(i)=beta0(1)
             gamma(i)=gamma0(1)
             else
-            ro(i)=0.0
-            beta(i)=0.0
-            gamma(i)=0.0
+!            gamma(i)=0.0
+            gamma(i)=gamma0(1)
             endif
-
       enddo
 
-!      do i=20,100
-!         if(grid(i) .gt. 0.5)then
-!            gamma(i)=gamma0(1)+3
-!         endif
-!      enddo
+      do i=1,Nc
+            ro(i)=ro0(1)
+            beta(i)=beta0(1)
+      enddo
 
 
 
