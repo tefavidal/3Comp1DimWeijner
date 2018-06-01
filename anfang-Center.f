@@ -7,11 +7,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
       common /param/ gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
@@ -20,6 +20,7 @@
       double precision dh,tEprime,dk2,dki,dkt,dq,depsilono,dlambda,Km
       double precision dtheta,Vmax,tendprime,toutprime,dtprime
       double precision cells(Nc)
+      character(len=100) ct
 
       open(8,file = 'startdata',status = 'unknown', form = 'formatted')
 
@@ -61,6 +62,18 @@
       tE=tEprime*dk1
       tout=toutprime*dk1
 
+      if (command_argument_count() .eq. 0)then
+        write(6,*) 'No center size given'
+            write(6,*) 'Emergency Exit'
+            call EXIT(0)
+      else
+         keB=0.0
+        CALL get_command_argument(1, ct)
+        read(ct,*)isf,keU
+        write(6,*) 'Using Center input, N=',isf
+        write(6,*) 'Using keU input, keU=',keU
+      endif
+
       write(6,*) 'dk=',dk
       write(6,*) 'dlambda1=',dlambda1
       write(6,*) 'dlambda2=',dlambda2
@@ -92,8 +105,8 @@
 
 !     %%%%% Random positions one cell per grid point %%%%%%%%%%
 
- 20   call initialDiscreteDistribution(Nx,Nc,cells)
-! 20   call NonRandomDistribution(Nx,Nc,cells)
+! 20   call initialDiscreteDistribution(Nx,Nc,cells)
+ 20   call NonRandomDistribution(Nx,Nc,cells)
 ! 20   call DispersionRelationTest(Nx,Nc,cells)
 ! 20   call DispersionRelationRandom(Nx,Nc,cells)
       call ic(t,Nx,Nc,beta,gamma,ro,cells)

@@ -6,11 +6,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i, j,k
       double precision cells(Nc)
@@ -18,9 +18,8 @@
       double precision gamma(Nx), gammalist(Nc)
 
 
-
-
       do k=1,Nc
+        gammalist(k)=0.0
         if(cells(k) .lt. 0)then
            cycle
         endif
@@ -50,11 +49,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i, j,k
       double precision cells(Nc)
@@ -73,6 +72,9 @@
       enddo
 
       do k=1,Nc
+        if(cells(k) .lt. 0)then
+           cycle
+        endif
         i=ceiling(cells(k)/dx)
         if(i .gt.Nx)then
             cells(k)=cells(k)-Nx*dx
@@ -99,11 +101,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i, j,k
       double precision cells(Nc)
@@ -118,6 +120,9 @@
       enddo
 
       do k=1,Nc
+        if(cells(k) .lt. 0)then
+           cycle
+        endif
         i=ceiling(cells(k)/dx)
         if(i .gt.Nx)then
             cells(k)=cells(k)-Nx*dx
@@ -144,11 +149,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i,k
       double precision cells(Nc), percentage, d
@@ -166,9 +171,13 @@
       ALLOCATE(a_seed(1:i_seed))
       CALL RANDOM_SEED(get=a_seed)
       CALL DATE_AND_TIME(values=dt_seed)
-      a_seed(i_seed)=dt_seed(8); a_seed(1)=dt_seed(8)*dt_seed(7)
-     .*dt_seed(6)
-       write(6,*) 'seed=',a_seed(i_seed)
+!      a_seed(i_seed)=dt_seed(8)
+      a_seed(i_seed)=dt_seed(8)+dt_seed(7)*1000
+      a_seed(1)=dt_seed(8)*dt_seed(7)*dt_seed(6)
+       write(6,*) 'seed size=',i_seed
+       write(6,*) 'date seed=',dt_seed
+       write(6,*) 'seed=',a_seed(1:i_seed)
+!       write(6,*) 'seed=',a_seed(i_seed)
       CALL RANDOM_SEED(put=a_seed)
       DEALLOCATE(a_seed)
   ! ----- Done setting up random seed ----
@@ -226,11 +235,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i,k
       double precision cells(Nc), percentage, d
@@ -243,10 +252,9 @@
          grid(i)=0
       enddo
             k=1;
-            percentage=real(Nc)/(real(Nx))
       do i=1,Nx
-         if(i .gt. (Nx-Nc)/2)then
-                if (k .gt. Nc)then
+         if(i .gt. (Nx-isf)/2)then
+                if (k .gt. isf)then
                     exit
                 endif
                 cells(k)=(i-0.5)*dx
@@ -255,7 +263,9 @@
       enddo
 
 
-
+      do i=k,Nc
+        cells(i)=-1.0
+      enddo
 
       return
       end
@@ -270,11 +280,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i,k
       double precision cells(Nc), percentage, d
@@ -338,11 +348,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i,k
       double precision cells(Nc), percentage, d

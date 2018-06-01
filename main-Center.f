@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=1200
+      INTEGER, PARAMETER :: Nc=100
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -23,19 +23,25 @@
       double precision cells(Nc)
       integer pgbeg, i, counter, factor
       integer grid(Nx)
-      character(len=4) ct1
-      character(len=52) ct2
+      character(len=57) ct1
+      character(len=48) ct2
 !      character(len=22) ct2
-      character(len=56) ct3
+      character(len=9) ct3
 
       double precision gamma0(10),ro0(10),beta0(10)
 
       t=0.d0
       counter=0;
+
       call anfang(t,Nx,Nc,beta,gamma,ro,cells)
-      ct2='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/data'
+      write(ct3,'(A,F3.1,A,F3.0)')
+     . 'ke', keU,'_',isf
+      ct2='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/'
 !      ct2='/scratch01/evidal/data'
-      open(10,file =ct2 ,status = 'unknown',form = 'formatted')
+       ct1=ct2 // ct3
+!       i=index(ct1,'.')
+!       ct1(i:i)='_'
+      open(10,file =ct1 ,status = 'unknown',form = 'formatted')
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
 
@@ -48,7 +54,6 @@
       write(6,*) 'real t= '
       write(6,'(F6.2)') t/dk1
       counter=counter+1
-      write(ct1,'(I4)') counter
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
 !      if(mod(counter,85) .eq. 10)then

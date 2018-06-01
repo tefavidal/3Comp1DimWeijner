@@ -7,11 +7,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
@@ -55,8 +55,8 @@
            if(grid(i) .gt. 0.5)then
             gamma(i)=gamma0(1)
             else
-!            gamma(i)=0.0
-            gamma(i)=gamma0(1)
+            gamma(i)=0.0
+!            gamma(i)=gamma0(1)
             endif
       enddo
 

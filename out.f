@@ -7,11 +7,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 

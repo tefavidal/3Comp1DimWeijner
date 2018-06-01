@@ -6,11 +6,11 @@
       integer Nx, i, j,ID
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
@@ -73,11 +73,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
@@ -94,19 +94,19 @@
        do i=1,Nx
 !       No-Flux boundary condition
        if(i .eq. 1) then
-!        gammaim2=gamma(i+1)
-!        gammaim1=gamma(i+1)
-!        gammaip1=gamma(i+1)
+        gammaim2=gamma(i+1)
+        gammaim1=gamma(i+1)
+        gammaip1=gamma(i+1)
 
-        gammaim2=0.00
-        gammaim1=0.00
+!        gammaim2=0.00
+!        gammaim1=0.00
 
        elseif(i .eq. 2) then
-!        gammaim2=-gamma(i)+2*gamma(i-1)
+        gammaim2=-gamma(i)+2*gamma(i-1)
         gammaim1=gamma(i-1)
         gammaip1=gamma(i+1)
 
-        gammaim2=0.00
+!        gammaim2=0.00
 
        elseif(i .eq. Nx) then
         gammaim2=gamma(i-2)
@@ -198,11 +198,11 @@
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       common /const/ dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
      .               dlambda1,dlambda2,s1,s2,vd,tend,tout,dt,tE,
-     .               dx,dy,tol,isf,itstart,pi,amplit,prob
+     .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       double precision gamma01,beta01,ro01,Diffgamma,dke0,dk1,dsigma0
 
