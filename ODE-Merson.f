@@ -159,7 +159,7 @@
       tau=tau+h
 
       call UpdateDiscreteCells(t,h,Nx,Nc, gamma, ro, beta, cells)
-
+!      call ScalatedMovement(t,h,Nx,Nc, gamma, ro, beta, cells)
       h=dt
 
       if (tau + h .le. tout+tol*dt) then

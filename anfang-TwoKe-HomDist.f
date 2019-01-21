@@ -107,8 +107,8 @@
 !     %%%%% Random positions one cell per grid point %%%%%%%%%%
 
 ! 20   call initialDiscreteDistribution(Nx,Nc,cells)
- 20   call NonRandomDistribution(Nx,Nc,cells,Nc)
-! 20   call DispersionRelationTest(Nx,Nc,cells)
+! 20   call NonRandomDistribution(Nx,Nc,cells,Nc)
+ 20   call DispersionRelationTest(Nx,Nc,cells)
 ! 20   call DispersionRelationRandom(Nx,Nc,cells)
       call ic(t,Nx,Nc,beta,gamma,ro,cells)
 

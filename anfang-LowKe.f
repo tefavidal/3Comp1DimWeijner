@@ -39,12 +39,18 @@
 
       close(8)
 
-!     Km changes
-      Km=1.0
-      dq=dq*Km
-      dsigma0=dsigma0/Km
-      dalpha=dalpha/Km
 
+      if (command_argument_count() .eq. 0)then
+        write(6,*) 'No imput given'
+        call EXIT(0)
+      else
+        CALL get_command_argument(1, ct)
+        read(ct,*)Vmax , keU , dsigma0
+        keB=0.0
+        write(6,*) 'Using Phosphodiesterase input, keU=',keU
+        write(6,*) 'Velocity=',Vmax
+        write(6,*) 'sigma=', dsigma0
+      endif
 
 
       dk=dk2/dk1
@@ -56,25 +62,14 @@
       depsilonp=dk1/(dki+dkt)
 
 
-      vd=Vmax/(dke0*Diffgamma)**0.5
+
       dt=dtprime*dk1
       tend=tendprime*dk1
       tE=tEprime*dk1
       tout=toutprime*dk1
 
-      if (command_argument_count() .eq. 0)then
-         keB=0.0
-         keU=dke0
-        write(6,*) 'No Phosphodiesterase input, using keU=',keU
-      else
-        CALL get_command_argument(1, ct)
-        read(ct,*)keB , keU
-!        CALL get_command_argument(2, ct)
-!        read(ct,*)keU
-        write(6,*) 'Using Phosphodiesterase input, keU=',keU
-        write(6,*) 'keB=',keB
-      endif
 
+      vd=Vmax/(dke0*Diffgamma)**0.5
       write(6,*) 'dk=',dk
       write(6,*) 'dlambda1=',dlambda1
       write(6,*) 'dlambda2=',dlambda2

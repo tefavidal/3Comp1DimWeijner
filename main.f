@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=1200
+      INTEGER, PARAMETER :: Nc=2000
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -34,12 +34,10 @@
       counter=0;
       call anfang(t,Nx,Nc,beta,gamma,ro,cells)
       ct2='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/data'
-!      ct2='/scratch01/evidal/data'
       open(10,file =ct2 ,status = 'unknown',form = 'formatted')
       call out(t,Nx,Nc,gamma,ro,beta,cells)
+      write(6,*) 'real t= 0'
 
-
-!      ct2='OutputData2D/data'
 
  5    continue
 
@@ -67,18 +65,6 @@
       close(10)
 
 !
-
-!     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-!     WRITES FINAL STATE
-!      open(42,file ='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/
-!     ./Final-State',status = 'unknown',form = 'formatted')
-!
-!      open(43,file ='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/
-!     ./Final-Positions',status = 'unknown',form = 'formatted')
-!
-!      call outFinal(t,Nx,Nc,gamma,ro,beta,cells)
-!      close(42)
-!      close(43)
 
       end
 

@@ -90,6 +90,15 @@
         betagrid(i)=beta(k)+betagrid(i)
         rhogrid(i)=ro(k)+rhogrid(i)
       enddo
+!     Setting beta and rho as the average of the cells in a spot
+
+      do i=1,Nx
+         if (grid(i).gt.0)then
+            rhogrid(i)=rhogrid(i)/grid(i)
+         endif
+      enddo
+
+
 
       return
       end
@@ -229,7 +238,7 @@
 !     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-      subroutine NonRandomDistribution(Nx,Nc,cells)
+      subroutine NonRandomDistribution(Nx,Nc,cells,ClusterSize)
 
       implicit none
 
@@ -242,7 +251,7 @@
      .               dx,dy,tol,isf,itstart,pi,amplit,prob,keB,keU
 
       integer Nx, Nc,i,k
-      double precision cells(Nc), percentage, d
+      double precision cells(Nc), percentage, d, ClusterSize
       real aux
       integer grid(Nx), auxInt
 
@@ -253,8 +262,8 @@
       enddo
             k=1;
       do i=1,Nx
-         if(i .gt. (Nx-isf)/2)then
-                if (k .gt. isf)then
+         if(i .gt. (Nx-ClusterSize)/2)then
+                if (k .gt. ClusterSize)then
                     exit
                 endif
                 cells(k)=(i-0.5)*dx
@@ -298,6 +307,12 @@
       enddo
             k=1;
       do i=1,Nx
+!%%%%%%  10%
+!         if(mod(i,10) .eq. 2)then
+!
+!%%%%%%  20%
+!         if(mod(i,5) .eq. 2)then
+!
 !%%%%%%% 30 %
 !         if(mod(i,10) .eq. 3 .or. mod(i,10) .eq. 6
 !     .    .or. mod(i,10) .eq. 9)then
@@ -311,6 +326,10 @@
 !%%%%%%  60%
 !      if(mod(i,5) .eq. 1 .or. mod(i,5) .eq. 3 .or. mod(i,5)
 !     .  .eq. 0)then
+
+!%%%%%%% 70 %
+!         if(mod(i,10) .ne. 3 .and. mod(i,10) .ne. 6
+!     .    .and. mod(i,10) .ne. 9)then
                 if (k .gt. Nc)then
                     exit
                 endif

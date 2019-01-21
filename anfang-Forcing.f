@@ -20,7 +20,7 @@
       double precision dh,tEprime,dk2,dki,dkt,dq,depsilono,dlambda,Km
       double precision dtheta,Vmax,tendprime,toutprime,dtprime
       double precision cells(Nc)
-      character(len=100) ct
+
 
       open(8,file = 'startdata',status = 'unknown', form = 'formatted')
 
@@ -54,26 +54,14 @@
       s2=dkt/(dke0*dh)
       depsilon=dk1/dke0
       depsilonp=dk1/(dki+dkt)
-
+         keB=0.0
+         keU=dke0
 
       vd=Vmax/(dke0*Diffgamma)**0.5
       dt=dtprime*dk1
       tend=tendprime*dk1
       tE=tEprime*dk1
       tout=toutprime*dk1
-
-      if (command_argument_count() .eq. 0)then
-         keB=0.0
-         keU=dke0
-        write(6,*) 'No Phosphodiesterase input, using keU=',keU
-      else
-        CALL get_command_argument(1, ct)
-        read(ct,*)keB , keU
-!        CALL get_command_argument(2, ct)
-!        read(ct,*)keU
-        write(6,*) 'Using Phosphodiesterase input, keU=',keU
-        write(6,*) 'keB=',keB
-      endif
 
       write(6,*) 'dk=',dk
       write(6,*) 'dlambda1=',dlambda1
@@ -86,35 +74,18 @@
       write(6,*) 'vd=',vd,'dt=',dt,'tend=',tend,'tE=',tE
 
        dx=0.01*dk1/(dke0*Diffgamma)**0.5
-       dy=0.05*dk1/(dke0*Diffgamma)**0.5
 
       write(6,*)'dimensionless dx=', dx
-      write(6,*)'dimensionless dy=', dy
-
-!     %%%%% Optional load of initial conditions %%%%%%%%%%
-!
-!      open(7,file = 'OutputData2D/Initial-State', err = 20,
-!     .       status = 'old', form = 'formatted')
-!
-!      open(8,file = 'OutputData2D/Initial-Positions', err = 20,
-!     .       status = 'old', form = 'formatted')
-!
-!      call loadState(t,Nx,Ny,Nc,gamma,ro,beta,cells)
-!      tE=0
-!      tend=tend+t
-!      go to 10
 
 !     %%%%% Random positions one cell per grid point %%%%%%%%%%
 
 ! 20   call initialDiscreteDistribution(Nx,Nc,cells)
- 20   call NonRandomDistribution(Nx,Nc,cells,Nc)
-! 20   call DispersionRelationTest(Nx,Nc,cells)
+! 20   call NonRandomDistribution(Nx,Nc,cells,Nc)
+ 20   call DispersionRelationTest(Nx,Nc,cells)
 ! 20   call DispersionRelationRandom(Nx,Nc,cells)
       call ic(t,Nx,Nc,beta,gamma,ro,cells)
 
 
-!      call StartingTime(t,Nx,Ny,TS)
-
- 10   return
+      return
       
       end

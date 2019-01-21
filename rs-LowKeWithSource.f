@@ -36,6 +36,10 @@
 
        do i=1,Nc
 !       Extra variables calculation
+         if(cells(i) .lt. 0) then
+           betaprime(i)=0
+           roprime(i)=0
+         endif
             vdy=0.0
             aux=gammalist(i)
             f1=(1.d0+dk*aux)/(1.d0+aux)
@@ -49,23 +53,39 @@
             roprime(i)=(-f1*ro(i)+f2*(1.d0-ro(i)))
        enddo
 
-       do i=1,Nx
+       do i=1,100
 !       Right hand side
         if(grid(i) .gt. 0.5)then
             gammaprime(i)=1.0/depsilon*s2*betagrid(i)
      .                 -1.0/depsilon*gamma(i)
      .                      +depsilon*gLaplace(i)
-     .                      -vdx(i)*xgradeC(i)
+     .                     -vdx(i)*xgradeC(i)
         else
             gammaprime(i)=-1.0/depsilon*gamma(i)
      .                      +depsilon*gLaplace(i)
-     .                      -vdx(i)*xgradeC(i)
+     .                     -vdx(i)*xgradeC(i)
+        endif
+      enddo
+
+       do i=101,Nx
+!       Right hand side
+        if(grid(i) .gt. 0.5)then
+            gammaprime(i)=1.0/depsilon*s2*betagrid(i)
+     .                 -(keB*grid(i)+keU)/dke0/depsilon*gamma(i)
+     .                      +depsilon*gLaplace(i)
+     .                     -vdx(i)*xgradeC(i)
+        else
+            gammaprime(i)=-(keU/dke0)/depsilon*gamma(i)
+     .                      +depsilon*gLaplace(i)
+     .                     -vdx(i)*xgradeC(i)
         endif
       enddo
 
       return
 
       end
+!      ***********************************************************
+!     *************************************************
 
 
 

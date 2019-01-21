@@ -4,7 +4,7 @@
 
 
       INTEGER, PARAMETER :: Nx=2000
-      INTEGER, PARAMETER :: Nc=100
+      INTEGER, PARAMETER :: Nc=1000
 !     Nc decided as Nx*percentageofcells
 
       double precision dL1,dL2,dk,dc,dalpha,depsilon,depsilonp,
@@ -23,19 +23,19 @@
       double precision cells(Nc)
       integer pgbeg, i, counter, factor
       integer grid(Nx)
-      character(len=57) ct1
+      character(len=64) ct1
       character(len=48) ct2
 !      character(len=22) ct2
-      character(len=9) ct3
+      character(len=16) ct3
 
       double precision gamma0(10),ro0(10),beta0(10)
 
       t=0.d0
       counter=0;
-
       call anfang(t,Nx,Nc,beta,gamma,ro,cells)
-      write(ct3,'(A,F3.1,A,F3.0)')
-     . 'ke', keU,'_',isf
+      write(ct3,'(A,F3.1,A,F3.0,A,F4.2)')
+     . 'ke', keU,'_',isf,'_ep',
+     .  0.2575/dlambda2
       ct2='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/'
 !      ct2='/scratch01/evidal/data'
        ct1=ct2 // ct3
@@ -45,7 +45,6 @@
       call out(t,Nx,Nc,gamma,ro,beta,cells)
 
 
-!      ct2='OutputData2D/data'
 
  5    continue
 
@@ -72,18 +71,6 @@
       close(10)
 
 !
-
-!     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-!     WRITES FINAL STATE
-!      open(42,file ='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/
-!     ./Final-State',status = 'unknown',form = 'formatted')
-!
-!      open(43,file ='/data.lfpn/evidal/3Comp1DimWeijner/OutputData1D/
-!     ./Final-Positions',status = 'unknown',form = 'formatted')
-!
-!      call outFinal(t,Nx,Nc,gamma,ro,beta,cells)
-!      close(42)
-!      close(43)
 
       end
 
